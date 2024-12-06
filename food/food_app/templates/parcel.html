@@ -1,0 +1,240 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Hotel Template">
+    <meta name="keywords" content="Hotel, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hotel </title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Taviraj:300,400,500,600,700,800,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/linearicons.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/nice-select.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+<style>
+  /* Make sure the navbar stays at the top and is not covered by the image */
+    .header-section {
+        position: absolute; /* Fixed or absolute to stay on top of the image */
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000; /* Ensure the navbar stays above other content */
+    }
+    .main-menu li:hover .drop-menu {
+        display: block;
+    }
+
+</style>
+</head>
+<body>
+{% include 'usernav.html' %}
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+<div class="container mt-4">
+    <h2>Add Order</h1>
+    <form id="bill_form">
+
+        {% csrf_token %}
+<input type="text" name="parcel_charge" class="form-control">
+        <table id="add_bill_table" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Item Code</th>
+                    <th>Item Name</th>
+                    <th>Price</th>
+                    <th>GST</th>
+                    <th>Qty</th>
+                    <th>Tax Amt</th>
+                    <th>GST Amt</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div id="total_value" style="font-size:30px; color:green;font-weight: bold; float:right"></div><br>
+        <button type="button" onclick="addRows()" class="btn btn-primary">Add Row</button>
+        <button type="button" onclick="savePracelDetails()" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    addRows(5); // Add initial rows
+});
+
+function addRows(count = 1) {
+    const tbody = document.querySelector('#add_bill_table tbody');
+    const existingRows = tbody.querySelectorAll('tr').length;
+    for (let i = 0; i < count; i++) {
+        const rowCount = existingRows + i + 1;
+        const row = `
+            <tr id="row_${rowCount}">
+                <td>${rowCount}</td>
+                <td><input type="text" class="item_code form-control" onblur="fetchItemDetails('row_${rowCount}')"/></td>
+                <td><input type="text" class="item_name form-control" disabled /></td>
+                <td><input type="text" class="price form-control" disabled oninput="calculateTotal('row_${rowCount}')" /></td>
+                <td><input type="text" class="gst form-control" disabled oninput="calculateTotal('row_${rowCount}')" /></td>
+                <td><input type="number" class="qty form-control" min="1" oninput="calculateTotal('row_${rowCount}')" /></td>
+                <td><input type="text" class="tax_amt form-control" disabled /></td>
+                <td><input type="text" class="total_gst form-control" disabled /></td>
+                <td><input type="text" class="total form-control" disabled /></td>
+            </tr>
+        `;
+        tbody.insertAdjacentHTML('beforeend', row);
+    }
+}
+
+function fetchItemDetails(rowId) {
+    const itemCode = document.querySelector(`#${rowId} .item_code`).value;
+    if (itemCode) {
+        fetch(`/item/${itemCode}/`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+                const row = document.getElementById(rowId);
+                row.querySelector('.item_name').value = data.item_name;
+                row.querySelector('.price').value = data.price;
+                row.querySelector('.gst').value = data.gst;
+
+                calculateTotal(rowId);
+            })
+            .catch(error => console.error('Error fetching item details:', error));
+    }
+}
+
+function calculateTotal(rowId) {
+    const row = document.getElementById(rowId);
+    const price = parseFloat(row.querySelector('.price').value) || 0;
+    const qty = parseInt(row.querySelector('.qty').value) || 0;
+    const gstPercentage = parseFloat(row.querySelector('.gst').value) || 0;
+
+    const taxAmt = price * qty;
+    const totalGst = (gstPercentage / 100) * taxAmt;
+    const total = taxAmt + totalGst;
+
+    row.querySelector('.tax_amt').value = taxAmt.toFixed(2);
+    row.querySelector('.total_gst').value = totalGst.toFixed(2);
+    row.querySelector('.total').value = total.toFixed(2);
+
+    calculateAndDisplayTotal();
+}
+
+function calculateAndDisplayTotal() {
+    const rows = document.querySelectorAll('#add_bill_table tbody tr');
+    let totalSum = 0;
+
+    rows.forEach(row => {
+        const total = parseFloat(row.querySelector('.total').value) || 0;
+        totalSum += total;
+    });
+
+    const pracelCharge = parseFloat(document.querySelector('[name="parcel_charge"]').value) || 0;
+    const finalTotal = totalSum + pracelCharge;
+
+    document.getElementById('total_value').textContent = `Total: ${finalTotal.toFixed(2)}`;
+}
+
+function savePracelDetails() {
+    const rows = document.querySelectorAll('#add_bill_table tbody tr');
+    const billItems = [];
+
+    rows.forEach(row => {
+        const item_code = row.querySelector('.item_code').value;
+        const item_name = row.querySelector('.item_name').value;
+        const price = row.querySelector('.price').value;
+        const gst = row.querySelector('.gst').value;
+        const qty = row.querySelector('.qty').value;
+        const tax_amt = row.querySelector('.tax_amt').value;
+        const total_gst = row.querySelector('.total_gst').value;
+        const total = row.querySelector('.total').value;
+
+        if (item_code && item_name && price && gst && qty && tax_amt && total_gst && total) {
+            billItems.push({
+                item_code,
+                item_name,
+                price,
+                gst,
+                qty,
+                tax_amt,
+                total_gst,
+                total
+            });
+        }
+    });
+
+    const parcelCharge = parseFloat(document.querySelector('[name="parcel_charge"]').value) || 0;
+
+    if (billItems.length > 0) {
+        const data = { billItems, parcelCharge  };
+
+        fetch('/save_pracel_user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Bill details saved successfully!');
+                window.open(`/print_pracel/${data.bill_no}/`, '_blank');  // Open the bill in a new tab for printing
+                window.location.href = data.redirect_url;  // Redirect to admin_home
+            } else {
+                console.error('Error saving bill details:', data.error);
+                alert('Error saving bill details: ' + data.error);
+            }
+        })
+        .catch(error => console.error('Error saving bill details:', error));
+    } else {
+        console.error('No bill details to save');
+        alert('No bill details to save');
+    }
+}
+</script>
+
+    <!-- Js Plugins -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'js/jquery.slicknav.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>
+

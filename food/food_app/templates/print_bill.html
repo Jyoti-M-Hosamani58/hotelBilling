@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Print Bill</title>
+    <style>
+        /* Print-specific styles */
+        @media print {
+            body {
+                font-family: Arial, sans-serif;
+                padding: 0;
+                margin: 0;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+        @page {
+            size: 80mm auto; /* Adjust page size */
+            margin: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 80mm;
+            height: auto;
+            box-sizing: border-box;
+        }
+        .card {
+            padding: 5mm;
+            margin: 0 auto;
+            max-width: 70mm;
+            background-color: #fff;
+        }
+        .btn-print {
+            display: block;
+            text-align: center;
+            margin-bottom: 5mm;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 5mm;
+        }
+        th, td {
+            text-align: left;
+            padding: 1mm;
+            font-size: 12px;
+        }
+        th {
+            font-size: 11px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 5mm;
+            font-size: 14px;
+        }
+        p {
+            text-align: left;
+            font-size: 12px;
+            margin-bottom: 3mm;
+        }
+        .table-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3mm;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        .totals {
+            text-align: right;
+            margin-top: 3mm;
+        }
+        .totals p {
+            margin-left: 0;
+            font-size: 12px;
+        }
+        .heading {
+            text-align: center;
+        }
+        .date-time {
+            margin-right: 10px;
+            font-size: 14px;
+        }
+    </style>
+
+    <script>
+        function handlePrint() {
+            // Print the page
+            window.print();
+
+            // After printing is done, trigger the redirect to delete the print order
+            window.onafterprint = function () {
+                const billNo = "{{ table_data.items.0.bill_no }}"; // Dynamically insert the bill number
+                // Redirect to the print_bill_delete URL after print completion
+                window.location.href = '/delete_print_bill/' + billNo + '/';
+            };
+        }
+
+        window.onload = function() {
+            // Call the print function automatically when the page loads
+            handlePrint();
+        };
+    </script>
+</head>
+<body>
+    <div class="card">
+        {% for comp in company %}
+            <h1>{{ comp.Company_name }}</h1>
+            <p class="heading">{{ comp.Company_address }}<br></p>
+            <hr>
+        {% endfor %}
+
+        <div class="table-info">
+            <p>Table No: {{ table_data.table_name }}</p>
+            <p>Order No: {{ table_data.items.0.bill_no }}</p>
+        </div>
+
+        <span class="date-time">Date: {{ table_data.items.0.bill_date }}</span>
+        <span class="date-time">Time: {{ table_data.items.0.bill_time }}</span>
+
+        <table>
+            <tr>
+                <th>Sl. No</th>
+                <th>Item name</th>
+                <th>Qty</th>
+            </tr>
+            {% for item in table_data.items %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ item.item_name }}</td>
+                <td>{{ item.qty }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Optional: If you want a "Back" button to navigate elsewhere -->
+    <a href="{% url 'admin_home' %}" class="btn-danger btn btn-print">Back</a>
+</body>
+</html>

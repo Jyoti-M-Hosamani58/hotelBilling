@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Hotel Template">
+    <meta name="keywords" content="Hotel, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hotel </title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Taviraj:300,400,500,600,700,800,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/linearicons.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/nice-select.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+<style>
+  /* Make sure the navbar stays at the top and is not covered by the image */
+    .header-section {
+        position: absolute; /* Fixed or absolute to stay on top of the image */
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000; /* Ensure the navbar stays above other content */
+    }
+    .main-menu li:hover .drop-menu {
+        display: block;
+    }
+
+</style>
+</head>
+<body>
+{% include 'nav.html' %}
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+ <script>
+    // Function to set the default date to the current date
+    function setCurrentDate() {
+        var today = new Date();
+        var day = today.getDate();
+        var month = today.getMonth() + 1; // Months are zero-based
+        var year = today.getFullYear();
+
+        // Format date as YYYY-MM-DD
+        var formattedDate = year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day);
+
+        // Set the value of the date input
+        document.getElementById('date').value = formattedDate;
+    }
+
+    // Run the function when the page loads
+    window.onload = setCurrentDate;
+
+
+function calculateTax() {
+    var gstValue = parseFloat(document.getElementById('gst').value) || 0;
+    var halfGst = (gstValue / 2).toFixed(2);
+
+    document.getElementById('cgst').value = halfGst;
+    document.getElementById('sgst').value = halfGst;
+}
+
+    </script>
+    <!-- Content-->
+<div class="container">
+<form method="post" action="{% url 'saveExpenses' %}">
+    {% csrf_token %}
+    <div class="row container">
+        <div class="col-md-6">
+            <label>Date</label>
+            <input type="date" class="form-control" id="date" name="date">
+        </div>
+        <div class="col-md-6">
+            <label>Amount</label>
+            <input type="text" class="form-control" id="amt" name="amt">
+        </div>
+        <div class="col-md-6">
+            <label>Description</label>
+            <input type="text" class="form-control" id="reason" name="reason" oninput="toggleSalaryField()">
+        </div>
+
+
+
+        <div class="col-md-6">
+            <br><button type="submit" class="form-control btn-success">Save</button>
+        </div>
+    </div>
+</form>
+    </div>
+<script>
+function toggleSalaryField() {
+    const reasonInput = document.getElementById('reason');
+    const salaryContainer = document.getElementById('salaryContainer');
+
+    if (reasonInput.value.toLowerCase() === 'salary') {
+        salaryContainer.style.display = 'block';
+    } else {
+        salaryContainer.style.display = 'none';
+    }
+}
+</script>
+
+<!-- Js Plugins -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'js/jquery.slicknav.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>

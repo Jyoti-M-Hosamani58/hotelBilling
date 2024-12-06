@@ -1,0 +1,161 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Hotel Template">
+    <meta name="keywords" content="Hotel, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hotel </title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Taviraj:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/linearicons.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/nice-select.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+
+    <!-- Custom CSS -->
+<style>
+    body {
+        font-family: 'Open Sans', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+
+    /* Hero Section */
+    .hero-section {
+        position: relative;
+        height: 100vh;
+        background-image: url("{% static 'img/bg.jpg' %}");
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+        padding: 50px;
+    }
+
+    .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-content {
+        z-index: 2;
+        max-width: 700px;
+    }
+
+    .hero-content h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: gray; /* Changed to gray */
+    }
+
+    .hero-content p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+    }
+
+    /* Admin Button Style */
+    .btn-admin {
+        padding: 15px 30px;
+        background-color: #3498db; /* Admin button color */
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        text-transform: uppercase;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .btn-admin:hover {
+        background-color: #2980b9;
+        transform: translateY(-5px);
+    }
+
+    /* Staff Button Style */
+    .btn-staff {
+        padding: 15px 30px;
+        background-color: #2ecc71; /* Staff button color */
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        text-transform: uppercase;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .btn-staff:hover {
+        background-color: #27ae60;
+        transform: translateY(-5px);
+    }
+
+    /* Media Queries for Responsiveness */
+    @media screen and (max-width: 768px) {
+        .hero-content h1 {
+            font-size: 2.5rem;
+        }
+
+        .hero-content p {
+            font-size: 1rem;
+        }
+    }
+</style>
+
+</head>
+
+<body>
+
+<form method="post">
+    {% csrf_token %}
+    <p style="color:red;text-align:center;font-size:22px;font-weight:bold">{{msg}}</p>
+<table align="center" width="500" height="200">
+
+ <tr>
+    <td>UserName</td>
+    <td><input type="text" name="t1" id="t1" required class="form-control"></td>
+    </tr>
+
+    <tr>
+        <td>Password</td>
+    <td><input type="password" name="t2" id="t2" required class="form-control"></td>
+    </tr>
+
+
+    <tr><td></td>
+    <td><input type="submit" value="Login" class="btn btn-success" style="width:400px;"></td>
+    </tr>
+</table>
+</form>
+<!-- Js Plugins -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'js/jquery.slicknav.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Hotel Template">
+    <meta name="keywords" content="Hotel, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hotel </title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Taviraj:300,400,500,600,700,800,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/linearicons.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/nice-select.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+<style>
+  /* Make sure the navbar stays at the top and is not covered by the image */
+    .header-section {
+        position: absolute; /* Fixed or absolute to stay on top of the image */
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000; /* Ensure the navbar stays above other content */
+    }
+    .main-menu li:hover .drop-menu {
+        display: block;
+    }
+
+</style>
+</head>
+<body>
+{% include 'nav.html' %}
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+    <h3>Add Item</h3>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="container">
+        <div class="row">
+        <p>{{msg}}</p>
+ <div class="col-md-6">
+        <label for="t1">Item Code:</label>
+        <input type="text" id="t1" name="t1" class="form-control">
+     </div>
+ <div class="col-md-6">
+        <label for="t2">Item Name:</label>
+        <input type="text" id="t2" name="t2" class="form-control">
+     </div>
+ <div class="col-md-6">
+        <label for="t3">Item GST:</label>
+        <input type="text" id="t3" name="t3" class="form-control">
+     </div>
+ <div class="col-md-6">
+        <label for="t4">Item Price:</label>
+        <input type="text" id="t4" name="t4" class="form-control">
+     </div>
+ <div class="col-md-6">
+        <label for="t5">Category:</label>
+        <input type="text" id="t5" name="t5" class="form-control">
+     </div>
+ <div class="col-md-6">
+     <br/>
+        <input type="submit" value="Add Item" class="btn btn-success" style="width:400px;">
+    </div>
+        </div>
+    </form>
+<!-- Js Plugins -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'js/jquery.slicknav.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>

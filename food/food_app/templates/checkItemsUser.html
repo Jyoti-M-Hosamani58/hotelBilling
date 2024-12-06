@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Print Bill</title>
+    <style>
+        @page {
+            size: 80mm auto; /* Increased height to 100mm */
+            margin: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 80mm;
+            height: auto; /* Increased height to 100mm */
+            box-sizing: border-box;
+        }
+        .card {
+            padding: 5mm;
+            margin: 0 auto;
+            max-width: 70mm; /* Adjust max-width as needed */
+            background-color: #fff;
+        }
+        .btn-print {
+            display: block;
+            text-align: center;
+            margin-bottom: 5mm;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 5mm;
+        }
+        th, td {
+            text-align: left;
+            padding: 1mm;
+            font-size: 12px;
+        }
+        th {
+            font-size: 11px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 5mm;
+            font-size: 14px;
+        }
+        p {
+            text-align: left;
+            font-size: 12px;
+            margin-bottom: 3mm;
+        }
+        .table-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3mm;
+            font-size: 10px;
+        }
+        .totals {
+            text-align: right;
+            margin-top: 3mm;
+        }
+        .totals p {
+            margin-left: 0;
+            font-size: 12px;
+        }
+        @media print {
+            .btn-print {
+                display: none;
+            }
+        }
+        .heading {
+            text-align: center;
+        }
+        .date-time {
+    margin-right: 10px;  /* Adds some space between the date and time */
+    font-size: 14px;     /* Optional: Adjust font size */
+}
+
+    </style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <div class="card">
+        <a href="javascript:window.print()" class="btn btn-danger btn-print">Print</a>
+        {% for comp in company %}
+            <h1>{{ comp.Company_name }}</h1>
+            <p class="heading">{{ comp.Company_address }}<br></p>
+            <hr>
+        {% endfor %}
+        <div class="table-info">
+            <p>Bill No: {{ table_data.items.0.bill_no }}</p>
+        </div>
+        <span class="date-time">Date: {{ table_data.items.0.bill_date }}</span>
+            <span class="date-time">Time: {{ table_data.items.0.bill_time }}</span></p>
+
+        <hr>
+        <table>
+            <tr>
+                <th>Sl. No</th>
+                <th>Item name</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Tax AMT</th>
+            </tr>
+
+            <!-- Iterate over items and display them -->
+            {% for item in table_data.items %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ item.item_name }}</td>
+                <td>{{ item.qty }}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ item.tax_amt }}</td>
+            </tr>
+            {% endfor %}
+
+            <!-- Display subtotal and total quantity
+            <tr>
+                <th>Sub Total</th>
+                <td></td>
+                <td><strong>{{ table_data.total_qty }}</strong></td>
+                <td colspan="1"></td>
+                <td><strong>{{ table_data.taxsubtotal }}</strong></td>
+            </tr>-->
+        </table>
+        <hr>
+        <div class="totals">
+            <p>CGST: {{ table_data.total_cgst | floatformat:2 }}</p> <!-- Display CGST for the item -->
+            <p>SGST: {{ table_data.total_sgst | floatformat:2 }}</p> <!-- Display SGST for the item -->
+            <hr>
+            <p><strong>Total: {{ table_data.total }}</strong></p>
+        </div>
+    </div>
+    <a href="{% url 'userHome' %}" class="btn btn-danger btn-print">Back</a>
+</body>
+</html>

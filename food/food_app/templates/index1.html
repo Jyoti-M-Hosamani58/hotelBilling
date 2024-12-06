@@ -1,0 +1,267 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Hotel Template">
+    <meta name="keywords" content="Hotel, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hotel</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Taviraj:300,400,500,600,700,800,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/linearicons.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/nice-select.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+
+    <style>
+    /* Make sure the navbar stays at the top and is not covered by the image */
+    .header-section {
+        position: absolute; /* Fixed or absolute to stay on top of the image */
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000; /* Ensure the navbar stays above other content */
+    }
+    .main-menu li:hover .drop-menu {
+        display: block;
+    }
+
+    /* Custom CSS to position content on top of the image */
+    .hero-section {
+        position: relative;
+        height: calc(109vh - 60px); /* Adjust to avoid covering the navbar */
+        width: 100%;
+        padding-top: 100px;
+        background-image: url("{% static 'img/bg.jpg' %}");
+        background-size: cover;
+        background-position: center;
+    }
+
+
+
+    .main-menu ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+    }
+
+    .main-menu a {
+        padding: 10px 15px;
+        text-decoration: none;
+        font-size: 16px;
+    }
+
+
+
+
+
+
+</style>
+
+    <style>
+
+
+
+    .overlay-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        text-align: center;
+    }
+
+    .button-container {
+        margin-bottom: 30px;
+        display: flex; /* Use Flexbox for horizontal alignment */
+        justify-content: center; /* Center buttons horizontally */
+        gap: 15px; /* Add some space between the buttons */
+        flex-wrap: wrap; /* Allow wrapping if necessary on smaller screens */
+    }
+
+    .btn {
+        padding: 15px 30px;
+        font-size: 16px;
+        text-transform: uppercase;
+        border-radius: 5px;
+        white-space: nowrap; /* Prevent button text from wrapping */
+    }
+
+    .table-card {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: 2px solid white;
+        margin-bottom: 20px;
+    }
+
+    .table-card:hover {
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+    }
+
+    .card-text {
+        font-size: 1rem;
+    }
+
+    /* Ensure the buttons are visible above the image */
+    .container {
+        position: relative;
+        z-index: 1;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+</style>
+
+    <style>
+    /* Basic styles for the table card */
+    .table-card {
+        cursor: pointer; /* Make the card clickable */
+        transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+        background-color: rgba(255, 255, 255, 0.1); /* Light transparent background */
+        color: #fff;
+        padding: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        border: 1px solid rgba(255, 255, 255, 0.3); /* Light border for card */
+    }
+
+    /* Hover effect for card */
+    .table-card:hover {
+        transform: scale(1.05); /* Slightly enlarge */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
+    }
+
+    /* Selected state styles */
+    .selected {
+        background-color: #28a745 !important; /* Green for selected */
+        color: white !important;
+        box-shadow: 0 8px 16px rgba(40, 167, 69, 0.5); /* Green shadow when selected */
+        transform: scale(1.05); /* Slightly scale up when selected */
+    }
+
+    /* Stored state styles */
+    .stored {
+        background-color: #dc3545 !important; /* Red for stored */
+        color: white !important;
+        box-shadow: 0 8px 16px rgba(220, 53, 69, 0.5); /* Red shadow when stored */
+        transform: scale(1.05); /* Slightly scale up when stored */
+    }
+
+    /* Title styling to make it more attractive */
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    /* Text styling for better readability */
+    .card-text {
+        font-size: 1rem;
+        font-weight: normal;
+        margin-top: 5px;
+    }
+
+    /* Optional: Add an inner glow for better visual feedback */
+    .table-card:hover, .selected, .stored {
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+    }
+
+    /* Add smooth transition effect for text color */
+    .table-card p, .table-card h5 {
+        transition: color 0.3s ease;
+    }
+
+    /* Active hover state text color */
+    .table-card:hover h5, .table-card:hover p {
+        color: #f8f9fa;
+    }
+
+</style>
+
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    {% include 'nav.html' %}
+
+    <!-- Hero Section with background image -->
+    <div class="hero-section">
+        <div class="overlay-content">
+            <!-- Buttons positioned above the image -->
+            <div class="button-container">
+                <a href="{% url 'exchange_tbl' %}" class="btn btn-success">Exc Tbl</a>
+                <a href="{% url 'settle_table' %}" class="btn btn-success">Settle Bill</a>
+                <a href="{% url 'print_table' %}" class="btn btn-success">Print Bill</a>
+                <a href="{% url 'checkTables' %}" class="btn btn-success">Check table</a>
+            </div>
+
+            <!-- Table Cards displayed in the same overlay -->
+            <div class="container mt-4">
+                <div class="row">
+                    {% for table in tdata %}
+                    <div class="col-md-4">
+                        <div class="card mb-4 table-card {% if table.Table_name == saved_table_name %}selected{% elif table.Table_name in stored_tables %}stored{% endif %}" onclick="selectTable('{{ table.Table_name }}')">
+                            <div class="card-body">
+                                <h5 class="card-title"><strong>{{ table.Table_name }}</strong></h5>
+                                <p class="card-text">{{ table.Category }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+    function selectTable(table_name) {
+        // Remove the selected class from any previously selected card
+        var selectedCard = document.querySelector('.selected');
+        if (selectedCard) {
+            selectedCard.classList.remove('selected');
+        }
+        // Construct the redirect URL with the table name and redirect parameter
+        var redirectUrl = "{% url 'add_order' %}?table=" + encodeURIComponent(table_name) + "&redirect=admin_home";
+        // Redirect to the constructed URL
+        window.location.href = redirectUrl;
+    }
+</script>
+    <!-- Js Plugins -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'js/jquery.slicknav.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>

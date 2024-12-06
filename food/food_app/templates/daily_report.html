@@ -1,0 +1,130 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Hotel Template">
+    <meta name="keywords" content="Hotel, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hotel </title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Taviraj:300,400,500,600,700,800,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/linearicons.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/nice-select.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+<style>
+         @media print {
+            .btn-print {
+                display: none;
+            }
+            .daily_heading{
+                display:none;
+            }
+            .btn-submit{
+                display:none;
+            }
+            .day{
+                display:none;
+            }
+            .heading{
+                display:none;
+            }
+            .navbar {
+                display: none; /* Hide the navigation bar */
+            }
+        }
+    </style>
+    <style>
+  /* Make sure the navbar stays at the top and is not covered by the image */
+    .header-section {
+        position: absolute; /* Fixed or absolute to stay on top of the image */
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000; /* Ensure the navbar stays above other content */
+    }
+    .main-menu li:hover .drop-menu {
+        display: block;
+    }
+
+</style>
+</head>
+<body>
+{% include 'nav.html' %}
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+<form method="post">
+    {% csrf_token %}
+    <h3 class="daily_heading">Daily Report</h3>
+    <div class="row">
+        <div class="col-md-2">
+            <input type="date" class="form-control day" name="date" value="{{ current_date }}">
+        </div>
+    </div><br>
+    <div>
+        <input type="submit" value="Submit" class="btn btn-primary btn-submit">
+    </div>
+    <hr class="heading">
+</form>
+
+{% if orders %}
+    <a href="javascript:window.print()" class="btn btn-danger btn-print">Print</a>
+    <h2>Orders for {{ selected_date }}</h2>
+    <h2>Total Aount: {{ grand_total }}</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.item_name }}</td>
+                <td>{{ order.price }}</td>
+                <td>{{ order.qty }}</td>
+                <td>{{ order.total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No  data available for the selected Date.</p>
+    {% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Js Plugins -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'js/jquery.slicknav.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>

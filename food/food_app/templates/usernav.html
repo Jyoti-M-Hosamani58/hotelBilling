@@ -1,0 +1,33 @@
+{% load static %}
+
+<!-- Header Section Begin -->
+    <header class="header-section">
+        <div class="container-fluid">
+            <div class="inner-header">
+                <div class="logo">
+                    <a href="#"><img src="{% static 'img/logo.png' %}" alt=""></a>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <nav class="main-menu mobile-menu">
+                                <ul>
+                                    <li><a href="{% url 'userHome' %}">Home</a></li>
+                                    <li><a href="{% url 'parcel' %}">Parcel</a></li>
+
+
+
+
+
+                                    <li><a href="{% url 'index' %}">LogOut</a></li>
+                                </ul>
+                            </nav>
+
+                        </div>
+                    </div>
+                </div>
+                <div id="mobile-menu-wrap"></div>
+            </div>
+        </div>
+    </header>
+    <!-- Header End -->

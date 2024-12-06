@@ -1,0 +1,235 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Hotel Template">
+    <meta name="keywords" content="Hotel, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hotel </title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Taviraj:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/linearicons.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/nice-select.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+
+    <style>
+        /* Make sure the navbar stays at the top and is not covered by the image */
+    .header-section {
+        position: absolute; /* Fixed or absolute to stay on top of the image */
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 100; /* Ensure the navbar stays above other content */
+    }
+    .main-menu li:hover .drop-menu {
+        display: block;
+    }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px; /* Increase padding for better readability */
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+
+
+
+
+        .report:last-child {
+            margin-right: 0;
+        }
+
+        .profit {
+            color: green;
+            font-weight: bold;
+        }
+
+        .loss {
+            color: red;
+            font-weight: bold;
+        }
+
+
+
+        /* Style the grand total section */
+        .grand-total-section {
+            margin-top: 20px;
+        }
+
+        .grand-total-section p {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+
+<body>
+    {% include 'nav.html' %}
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <div class="container">
+
+        <!-- Form for filtering by date range -->
+        <form method="GET" action="">
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="from_date">From Date:</label>
+                    <input type="date" id="from_date" name="from_date" value="{{ from_date|date:'Y-m-d' }}" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label for="to_date">To Date:</label>
+                    <input type="date" id="to_date" name="to_date" value="{{ to_date|date:'Y-m-d' }}" class="form-control">
+                </div>
+                <div class="col-md-3"><br>
+                    <button type="submit" class="form-control btn-primary">Filter</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Orders</h2>
+                {% if consignments %}
+                <div class="table-responsive">
+                    <table id="consignmentTable">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Total Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in consignments %}
+                            <tr>
+                                <td>{{ item.bill_date }}</td>
+                                <td>{{ item.total }}</td>
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                                <td><strong>Grand Total:</strong></td>
+                                <td><strong>{{ grand_total_consignment }}</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p>No consignments found.</p>
+                {% endif %}
+            </div>
+
+            <div class="col-md-6">
+                <h2>Expenses:</h2>
+                {% if expenses %}
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Desc</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for expense in expenses %}
+                            <tr>
+                                <td>{{ expense.Date }}</td>
+                                <td>{{ expense.Reason }}</td>
+                                <td>{{ expense.total_amount }}</td>
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                                <td colspan="2"><strong>Grand Total:</strong></td>
+                                <td><strong>{{ grand_total_expenses }}</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p>No expenses found.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Combined Grand Total -->
+        <div class="grand-total-section">
+            <h2>Combined Grand Total</h2>
+            <p><strong>{{ combined_grand_total }}</strong></p>
+
+            <h2>Total Balance (Profit or Loss)</h2>
+            <p>
+                {% if profit > 0 %}
+                <span class="profit">Profit: {{ profit }}</span>
+                {% elif loss > 0 %}
+                <span class="loss">Loss: {{ loss }}</span>
+                {% endif %}
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        // Function to filter consignments by branch name
+        function filterConsignments() {
+            var input, filter, table, rows, td, i, txtValue;
+            input = document.getElementById("branchSearch");
+            filter = input.value.toLowerCase();
+            table = document.getElementById("consignmentTable");
+            rows = table.getElementsByTagName("tr");
+
+            for (i = 1; i < rows.length; i++) {
+                td = rows[i].getElementsByTagName("td")[2]; // Branch is in the 3rd column (index 2)
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                        rows[i].style.display = "";
+                    } else {
+                        rows[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Js Plugins -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'js/jquery.slicknav.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>

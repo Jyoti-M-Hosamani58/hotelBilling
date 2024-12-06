@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Print Bill</title>
+<style>
+        @page {
+            size: 80mm auto; /* Increased height to 100mm */
+            margin: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 80mm;
+            height: auto; /* Increased height to 100mm */
+            box-sizing: border-box;
+        }
+        .card {
+            padding: 5mm;
+            margin: 0 auto;
+            max-width: 70mm; /* Adjust max-width as needed */
+            background-color: #fff;
+        }
+        .btn-print {
+            display: block;
+            text-align: center;
+            margin-bottom: 5mm;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 5mm;
+        }
+        th, td {
+            text-align: left;
+            padding: 1mm;
+            font-size: 12px;
+        }
+        th {
+            font-size: 11px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 5mm;
+            font-size: 14px;
+        }
+        p {
+            text-align: left;
+            font-size: 12px;
+            margin-bottom: 3mm;
+        }
+        .table-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3mm;
+            font-size: 10px;
+            font-weight:bold;
+        }
+        .totals {
+            text-align: right;
+            margin-top: 3mm;
+        }
+        .totals p {
+            margin-left: 0;
+            font-size: 12px;
+        }
+        @media print {
+            .btn-print {
+                display: none;
+            }
+        }
+        .heading {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        {% for comp in company %}
+            <h1>{{ comp.Company_name }}</h1>
+            <p class="heading">{{ comp.Company_address }}<br></p>
+            <hr>
+        {% endfor %}
+        <div class="table-info">
+            <p>Bill No: {{ pracels.0.bill_no }}</p>
+            <p>Date: {{ pracels.0.bill_date }}</p>
+        </div>
+        <hr>
+        <table>
+            <tr>
+                <th>Sl. No</th>
+                <th>Item name</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Tax AMT</th>
+            </tr>
+            <tbody>
+                {% for pracel in pracels %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ pracel.item_name }}</td>
+                    <td>{{ pracel.qty }}</td>
+                    <td>{{ pracel.price }}</td>
+                    <td>{{ pracel.tax_amt }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="totals">
+            <p>Subtotal: {{ subtotal|floatformat:2 }}</p>
+<p>CGST: {{ total_cgst_amt|floatformat:2 }}</p>
+<p>SGST: {{ total_sgst_amt|floatformat:2 }}</p>
+<p>Parcel Charge: {{ parcel_charge|floatformat:2 }}</p>
+<p><strong>Grand Total: {{ grand_total|floatformat:2 }}</strong></p>
+        </div>
+    </div>
+    <script>
+        window.onload = function() {
+            window.print();
+        }
+    </script>
+</body>
+</html>

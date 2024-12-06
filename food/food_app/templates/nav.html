@@ -1,0 +1,71 @@
+{% load static %}
+
+<!-- Header Section Begin -->
+    <header class="header-section">
+        <div class="container-fluid">
+            <div class="inner-header">
+                <div class="logo">
+                    <a href="#"><img src="{% static 'img/logo.png' %}" alt=""></a>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <nav class="main-menu mobile-menu">
+                                <ul>
+                                    <li><a href="{% url 'admin_home' %}">Home</a></li>
+                                    <li><a href="#">Table</a>
+                                        <ul class="drop-menu">
+                                            <li><a href="{% url 'add_table' %}">Add Table</a></li>
+                                            <li><a href="{% url 'view_table' %}">View List</a></li>
+
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Item</a>
+                                        <ul class="drop-menu">
+                                            <li><a href="{% url 'add_item' %}">Add Item</a></li>
+                                            <li><a href="{% url 'view_item' %}">View Item</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Company</a>
+                                        <ul class="drop-menu">
+                                            <li><a href="{% url 'add_company' %}">Add Company</a></li>
+                                            <li><a href="{% url 'view_company' %}">View Company</a></li>
+
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Register</a>
+                                        <ul class="drop-menu">
+                                            <li><a href="{% url 'register' %}">Register</a></li>
+                                            <li><a href="{% url 'register_list' %}">Register List</a></li>
+
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Expenses</a>
+                                        <ul class="drop-menu">
+                                            <li><a href="{% url 'addExpenses' %}">Expense Add</a></li>
+                                            <li><a href="{% url 'viewExpenses' %}">Expenses List</a></li>
+                                            <li><a href="{% url 'salary' %}"> Salary </a></li>
+                                            <li><a href="{% url 'viewSalary' %}"> Salary List </a></li>
+
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Reports</a>
+                                        <ul class="drop-menu">
+                                            <li><a href="{% url 'sales_report' %}">Sales Report</a></li>
+                                            <li><a href="{% url 'item_report' %}">Item Report</a></li>
+                                            <li><a href="{% url 'daily_report' %}">Daily Report</a></li>
+                                            <li><a href="{% url 'profit_report' %}">Profit Report</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="{% url 'index' %}">LogOut</a></li>
+                                </ul>
+                            </nav>
+
+                        </div>
+                    </div>
+                </div>
+                <div id="mobile-menu-wrap"></div>
+            </div>
+        </div>
+    </header>
+    <!-- Header End -->
